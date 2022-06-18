@@ -1,0 +1,95 @@
+.list {
+  border: 1px solid reds;
+}
+
+.list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--gray-400);
+  background: var(--gray-500);
+  border-radius: 8px;
+}
+
+.checkbox {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--blue-500);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.checkbox::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #fff;
+  transform-origin: bottom left;
+  clip-path: polygon(28% 38%, 41% 53%, 75% 24%, 86% 38%, 40% 78%, 15% 50%);
+}
+
+.checkbox:checked::before {
+  transform: scale(1);
+}
+
+.checkbox:hover {
+  background: var(--blue-700);
+}
+
+.checkbox:checked {
+  background: var(--purple-700);
+  border: 1px solid var(--purple-700);
+}
+
+.checkbox:focus {
+  outline: none;
+  border: 2px solid var(--purple-500);
+}
+
+.list button {
+  background: transparent;
+  border: none;
+  font-size: 0;
+  border-radius: 4px;
+  padding: 0.3rem;
+  transition: 0.3s;
+  height: fit-content;
+}
+
+.list button:hover {
+  background: var(--gray-400);
+}
+
+.list button:hover svg path {
+  fill: var(--red-500);
+}
+
+.list button:focus {
+  outline: none;
+  border: 1px solid var(--gray-300);
+}
+
+.task {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+}
+
+.task label {
+  font-size: 0.875rem;
+  color: var(--gray-200);
+  cursor: pointer;
+}
+
+.task label.checked {
+  text-decoration: line-through;
+  color: var(--gray-300);
+}
