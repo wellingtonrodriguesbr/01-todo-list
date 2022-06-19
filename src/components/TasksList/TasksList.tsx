@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useChecked } from "../../hooks/useChecked";
 import { NotHaveTasks } from "../NotHaveTasks.tsx/NotHaveTasks";
 import { Task } from "../Task/Task";
 import styles from "./TasksList.module.css";
@@ -10,10 +11,12 @@ interface TasksProps {
 
 export function TasksList({ tasks, setTasks }: TasksProps) {
   const [completedTasks, setCompletedTasks] = useState<string[]>([]);
+  const { setCheckedState } = useChecked();
 
   function handleDeleteTask(task: string) {
     setTasks(tasks.filter((t) => t !== task));
     setCompletedTasks(completedTasks.filter((t) => t !== task));
+    setCheckedState(false);
   }
 
   return (
@@ -37,7 +40,7 @@ export function TasksList({ tasks, setTasks }: TasksProps) {
 
       <div className={styles.listContainer}>
         {tasks.length ? (
-          <>
+          <ul className={styles.list}>
             {tasks.map((task: string) => (
               <Task
                 task={task}
@@ -46,7 +49,7 @@ export function TasksList({ tasks, setTasks }: TasksProps) {
                 handleDeleteTask={handleDeleteTask}
               />
             ))}
-          </>
+          </ul>
         ) : (
           <NotHaveTasks />
         )}
