@@ -33,6 +33,10 @@
   font-weight: 700;
 }
 
+.list {
+  padding-bottom: 2rem;
+}
+
 @media (max-width: 720px) {
   .content {
     flex-direction: column;

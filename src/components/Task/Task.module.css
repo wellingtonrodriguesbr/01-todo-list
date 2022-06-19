@@ -1,9 +1,6 @@
-.list {
-  border: 1px solid reds;
-}
-
-.list li {
+li {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
   padding: 1rem;
@@ -54,7 +51,7 @@
   border: 2px solid var(--purple-500);
 }
 
-.list button {
+button {
   background: transparent;
   border: none;
   font-size: 0;
@@ -64,15 +61,15 @@
   height: fit-content;
 }
 
-.list button:hover {
+button:hover {
   background: var(--gray-400);
 }
 
-.list button:hover svg path {
+button:hover svg path {
   fill: var(--red-500);
 }
 
-.list button:focus {
+button:focus {
   outline: none;
   border: 1px solid var(--gray-300);
 }
