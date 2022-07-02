@@ -1,51 +1,37 @@
-import { useState } from "react";
-import { useChecked } from "../../hooks/useChecked";
 import styles from "./Task.module.css";
 
-interface TaskProps {
-  task: string;
-  completedTasks: string[];
-  setCompletedTasks: (tasks: string[]) => void;
-  handleDeleteTask: (task: string) => void;
+interface Task {
+  id: number;
+  title: string;
+  checked: boolean;
 }
 
-export function Task({
-  task,
-  setCompletedTasks,
-  completedTasks,
-  handleDeleteTask,
-}: TaskProps) {
-  const { checkedState, setCheckedState } = useChecked();
+interface TaskProps {
+  task: Task;
+  handleChecked: (id: number) => void;
+  handleDeleteTask: (id: number) => void;
+}
 
-  function handleChecked() {
-    setCheckedState(!checkedState);
-
-    if (checkedState) {
-      setCompletedTasks(completedTasks.filter((t) => t !== task));
-    } else {
-      setCompletedTasks([...completedTasks, task]);
-    }
-  }
-
+export function Task({ task, handleDeleteTask, handleChecked }: TaskProps) {
   return (
-    <li key={task}>
+    <li key={task.id}>
       <div className={styles.task}>
-        <input
-          className={styles.checkbox}
-          onChange={handleChecked}
-          type="checkbox"
-          checked={checkedState}
-          name={task}
-          id={task}
-        />
         <label
-          htmlFor={task}
-          className={checkedState ? `${styles.checked}` : ""}
+          htmlFor={task.title}
+          className={task.checked ? `${styles.checked}` : ""}
+          onClick={() => handleChecked(task.id)}
         >
-          {task}
+          <input
+            className={styles.checkbox}
+            type="checkbox"
+            checked={task.checked}
+            name={task.title}
+          />
+
+          {task.title}
         </label>
       </div>
-      <button onClick={() => handleDeleteTask(task)} title="Deletar tarefa">
+      <button onClick={() => handleDeleteTask(task.id)} title="Deletar tarefa">
         <svg
           width="13"
           height="14"

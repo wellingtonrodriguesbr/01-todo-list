@@ -2,20 +2,32 @@ import { useState } from "react";
 import { TasksList } from "../TasksList/TasksList";
 import styles from "./NewTask.module.css";
 
+interface Task {
+  id: number;
+  title: string;
+  checked: boolean;
+}
+
 export function NewTask() {
-  const [newTask, setNewTask] = useState("");
-  const [tasks, setTasks] = useState<string[]>([]);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   function createNewTask(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewTask(event.target.value);
+    setNewTaskTitle(event.target.value);
   }
 
   function addNewTask() {
+    const newTask = {
+      id: Math.random(),
+      title: newTaskTitle,
+      checked: false,
+    };
+
     setTasks([...tasks, newTask]);
-    setNewTask("");
+    setNewTaskTitle("");
   }
 
-  const noValueEntered = newTask.length === 0;
+  const noValueEntered = newTaskTitle.length === 0;
 
   return (
     <>
@@ -24,7 +36,7 @@ export function NewTask() {
           <input
             type="text"
             placeholder="Adicione uma nova tarefa"
-            value={newTask}
+            value={newTaskTitle}
             onChange={createNewTask}
           />
         </div>

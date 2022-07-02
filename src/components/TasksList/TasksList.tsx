@@ -1,22 +1,40 @@
-import { useState } from "react";
-import { useChecked } from "../../hooks/useChecked";
 import { NotHaveTasks } from "../NotHaveTasks.tsx/NotHaveTasks";
 import { Task } from "../Task/Task";
 import styles from "./TasksList.module.css";
 
+interface Task {
+  id: number;
+  title: string;
+  checked: boolean;
+}
+
 interface TasksProps {
-  tasks: string[];
-  setTasks: (tasks: string[]) => void;
+  tasks: Task[];
+  setTasks: (tasks: Task[]) => void;
 }
 
 export function TasksList({ tasks, setTasks }: TasksProps) {
-  const [completedTasks, setCompletedTasks] = useState<string[]>([]);
-  const { setCheckedState } = useChecked();
+  const tasksCompleted = tasks.reduce(
+    (acc, task) => (task.checked ? acc + 1 : acc),
+    0
+  );
 
-  function handleDeleteTask(task: string) {
-    setTasks(tasks.filter((t) => t !== task));
-    setCompletedTasks(completedTasks.filter((t) => t !== task));
-    setCheckedState(false);
+  function handleDeleteTask(id: number) {
+    const filteredTasks = tasks.filter((task) => task.id !== id);
+    setTasks(filteredTasks);
+  }
+
+  function handleChecked(id: number) {
+    const checkTasks = tasks.map((task) =>
+      task.id === id
+        ? {
+            ...task,
+            checked: !task.checked,
+          }
+        : task
+    );
+
+    setTasks(checkTasks);
   }
 
   return (
@@ -29,10 +47,10 @@ export function TasksList({ tasks, setTasks }: TasksProps) {
         <div className={styles.tasksCompleted}>
           <p>Concluídas</p>
           {tasks.length === 0 ? (
-            <span>{completedTasks.length}</span>
+            <span>{tasks.length}</span>
           ) : (
             <span>
-              {completedTasks.length} de {tasks.length}
+              {tasksCompleted} de {tasks.length}
             </span>
           )}
         </div>
@@ -41,11 +59,10 @@ export function TasksList({ tasks, setTasks }: TasksProps) {
       <div className={styles.listContainer}>
         {tasks.length ? (
           <ul className={styles.list}>
-            {tasks.map((task: string) => (
+            {tasks.map((task) => (
               <Task
                 task={task}
-                setCompletedTasks={setCompletedTasks}
-                completedTasks={completedTasks}
+                handleChecked={handleChecked}
                 handleDeleteTask={handleDeleteTask}
               />
             ))}

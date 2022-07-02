@@ -81,6 +81,8 @@ button:focus {
 }
 
 .task label {
+  display: flex;
+  gap: 0.75rem;
   font-size: 0.875rem;
   color: var(--gray-200);
   cursor: pointer;
